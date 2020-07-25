@@ -1,0 +1,236 @@
+ <html>
+
+  <head>
+    <link href="style.css" rel="stylesheet">
+  </head>
+
+  <h2>RoA Knockback Visualizer <small>(By IGL, Alpha v1.0, Patch 1.4.25)</small></h2>
+ <div class="canvas">
+    <canvas id="myCanvas" width="960" height="540" style="border:2px solid #d3d3d3;" fill="#000000;">
+    Your browser does not support the HTML canvas tag.</canvas>
+  </div>
+  
+ <div class="section">
+   <b>Stage Inputs:</b>
+ </div>
+  <form>
+  <p>
+    <label for="stage">Stage:</label>
+    <select name="stage" id="stage" onchange="resetStage()">
+      <option value="Fire Capital">Fire Capital</option>
+      <option value="Air Armada">Air Armada</option>
+      <option value="The Rock Wall">The Rock Wall</option>
+      <option value="Merchant Port">Merchant Port</option>
+      <option value="Treetop Lodge">Treetop Lodge</option>
+      <option value="Blazing Hideout">Blazing Hideout</option>
+      <option value="Tempest Peak">Tempest Peak</option>
+      <option value="Frozen Fortress">Frozen Fortress</option>
+      <option value="Tower Of Heaven">Tower Of Heaven</option>
+      <option value="Aethereal Gates">Aethereal Gates</option> 
+      <option value="The Endless Abyss">The Endless Abyss</option>
+      <option value="The Spirit Tree">The Spirit Tree</option>
+      <option value="The Forest Floor">The Forest Floor</option>
+      <option value="Julesvale">Julesvale</option>
+      <option value="Troupple Pond">Troupple Pond</option>
+      <option value="Treetop Lodge (D)">Treetop Lodge (D)</option>
+      <option value="The Forest Floor (D)">The Forest Floor (D)</option>
+    </select>
+  </p> 
+ 
+  <div class="section">
+   <b>Attack Inputs:</b>
+ </div>
+    <p>
+      <label for="damage">Damage Dealt (%): </label>
+      
+      <input id="damage" type="number" name="damageBox"  min="0" max="999" value="10" oninput="this.form.damageSlider.value=this.value" onchange="updateAttack()">
+      <input id="damageSlider" type="range" name="damageSlider" min="0" max="20" value="10" oninput="this.form.damageBox.value=this.value; updateAttack()"/> 
+    </p>
+    <p>
+      <label for="bkb">Base Knockback: </label>
+      <input id="bkb" type="number" name="bkbBox" min="0" max="100" value="10" oninput="this.form.bkbSlider.value=this.value" onchange="updateAttack()">
+      <input id="bkbSlider" type="range" name="bkbSlider" min="0" max="20" value="10" oninput="this.form.bkbBox.value=this.value; updateAttack()"/>
+    </p>
+    <p>
+      <label for="kbs">Knockback Scaling: </label>
+      <input id="kbs" type="number" name="kbsBox" min="0" max="2.0" value="1.0" step="0.05" oninput="this.form.kbsSlider.value=this.value" onchange="updateAttack()">
+      <input id="kbsSlider" type="range" name="kbsSlider" min="0" max="2.0" value="1.0" step="0.05" oninput="this.form.kbsBox.value=this.value; updateAttack()"/>
+    </p>
+    <p>
+      <label for="kba">Knockback Angle: </label> 
+      <input id="kba" type="number" name="kbaBox" min="0" max="359" value="45" oninput="this.form.kbaSlider.value=this.value;" onchange="updateAttack()">
+      <input id="kbaSlider" type="range" name="kbaSlider" min="0" max="359" value="45" oninput="this.form.kbaBox.value=this.value; updateAttack()"/>
+      <br>
+    </p>
+    <p>
+    <label for="flipper">Reverse Hit:</label>
+    <input type="checkbox" id="flipper" name="flipper" oninput="updateAttack()">
+    </p>
+    <p>
+     <label for="hsm">Hitstun Modifier: </label> 
+      <input id="hsm" type="number" name="hsmBox" min="0.05" value="1.00" step="0.05" oninput="this.form.hsmSlider.value=this.value;" onchange="updateAttack()">
+      <input id="hsmSlider" type="range" name="hsmSlider" min="0.05" max="2.00" value="1.00" step="0.05" oninput="this.form.hsmBox.value=this.value; updateAttack()"/>
+      <br>
+    </p>
+  
+  <div class="section">
+    <b>Player Inputs:</b>
+  </div>
+    <p>
+    <label for="chars">Character:</label>
+    <select name="chars" id="chars" onchange="updateAttack()">
+      <option value="Absa">Absa</option>
+      <option value="Clairen">Clairen</option>
+      <option value="Elliana">Elliana</option>
+      <option value="Elliana (Snake)">Elliana (Snake)</option>
+      <option value="Etalus">Etalus</option>
+      <option value="Etalus (Armor)">Etalus (Armor)</option>
+      <option value="Forsburn">Forsburn</option>
+      <option value="Kragg">Kragg</option>
+      <option value="Maypul">Maypul</option>
+      <option value="Orcane">Orcane</option>
+      <option value="Ori">Ori</option>
+      <option value="Ranno">Ranno</option>
+      <option value="Shovel Knight">Shovel Knight</option>
+      <option value="Shovel Knight (Mail)">Shovel Knight (Mail)</option>
+      <option value="Sylvanos">Sylvanos</option>
+      <option value="Wrastor">Wrastor</option>
+      <option value="Zetterburn">Zetterburn</option>
+    </select>
+    </p>
+    <p>
+      <label for="percent">Percentage (%): </label>
+      <input id="percent" type="number" name="pBox" min="0" max="999" value="50" oninput="this.form.pSlider.value=this.value" onchange="updateAttack()">
+      <input id="percentSlider" type="range" name="pSlider" min="0" max="200" value="50" oninput="this.form.pBox.value=this.value; updateAttack()"/>
+      <br>
+    </p>
+    <p>
+      <label for="crouch">Crouch Cancel:</label>
+      <input type="checkbox" id="crouch" name="crouch" oninput="updateAttack()">
+    </p>
+    <p>
+      <label for="noDI">No DI:</label>
+      <input type="checkbox" id="noDI" name="noDI" oninput="updateAttack()">
+    </p>
+    <p>
+      <label for="tdi">TDI Angle: </label>
+      <input id="tdi" type="number" name="tdiBox" min="0" max="359" value="135" oninput="this.form.tdiSlider.value=this.value" onchange="updateAttack()">
+      <input id="tdiSlider" type="range" name="tdiSlider" min="0" max="359" value="135" oninput="this.form.tdiBox.value=this.value; updateAttack()"/>
+      <br>
+    </p>
+    <p>
+      <label for="drift">Drift Direction: </label>
+      <select name="drift" id="drift" onchange="updateAttack()">
+        <option value="None">None</option>
+        <option value="Left">Left</option>
+        <option value="Right">Right</option>
+      </select>
+    </p>
+    
+    <p>
+      <label for="delay">Drift Delay: </label>
+      <input id="delay" type="number" name="delayBox" min="0" value="10" oninput="this.form.delaySlider.value=this.value" onchange="updateAttack()">
+      <input id="delaySlider" type="range" name="delaySlider" min="0" max="20" value="10" oninput="this.form.delayBox.value=this.value; updateAttack()"/>
+      <br>
+    </p>
+    
+    <p>
+      <label for="cutoff">Drift Cutoff: </label>
+      <input id="cutoff" type="number" name="cutoffBox" min="0" value="10" oninput="this.form.cutoffSlider.value=this.value" onchange="updateAttack()">
+      <input id="cutoffSlider" type="range" name="cutoffSlider" min="0" max="20" value="10" oninput="this.form.cutoffBox.value=this.value; updateAttack()"/>
+      <br>
+    </p>
+    
+    <div class="section">
+       <b>Location:</b>
+    </div>
+    <p>
+      <label for="xStart">X Location: </label>
+      <input id="xStart" type="number" name="xBox" min="-1000" max="1000" value="0" oninput="this.form.xSlider.value=this.value" onchange="updateAttack()">
+      <input id="xStartSlider" type="range" name="xSlider" min="-960" max="960" value="0" oninput="this.form.xBox.value=this.value; updateAttack()"/>
+      <br>
+    </p>
+    <p>
+      <label for="yStart">Y Location: </label>
+      <input id="yStart" type="number" name="yBox" value="0" oninput="this.form.ySlider.value=this.value" onchange="updateAttack()">
+      <input id="yStartSlider" type="range" name="ySlider" min="-440" max="640" value="0" oninput="this.form.yBox.value=this.value; updateAttack()"/>
+      <br>
+    </p>
+    
+  <div class="section">
+     <b>Attack Labels:</b>
+  </div>
+  
+  <p>
+  <label for="aColor">Attack Color: </label>
+      <input id="aColor" type="number" name="colorBox" min="0", max="360" value="180" oninput="this.form.colorSlider.value=this.value" onchange="updateAttack()">
+      <input id="aColorSlider" type="range" name="colorSlider" min="0" max="360" value="180" oninput="this.form.colorBox.value=this.value; updateAttack()"/>
+      <br>
+    </p>
+    
+    <p>
+    <label for="aName">Attack Name: </label>
+      <input id="aName" type="text" name="nameBox" value="Attack 1" onchange="updateAttack()">
+      <br>
+    </p>
+    
+    <p>
+      <label for="diZone">Draw DI Zone:</label>
+      <input type="checkbox" id="diZone" name="diZone" oninput="updateAttack()">
+    </p>
+    
+    
+  <div class="section">
+     <b>Attack List:</b>
+  </div>
+  
+  <p>
+  <label for="aList">Current Attack: </label>
+  <select name="attackList" id="aList" onchange="swapMove()">
+    <option id="aListOption"></option>
+  </select>
+  </p>
+  
+  <div class="section">
+     <b>Other:</b>
+  </div>
+  
+  <p>
+    <label for="xy">Disable XY Overlay:</label>
+    <input type="checkbox" id="xy" name="xy" oninput="resetStage()">
+  </p>
+  
+  </form>
+  <br>
+  <button onclick="addAttack()" id="addButton">Add New Attack</button>
+  <br>
+  <br>
+  <button onclick="deleteAttack()" id="deleteButton">Delete Current Attack</button>
+  <br>
+  <br>
+  <button onclick="reset()" id="resetButton">Clear All</button>
+  
+  <div class="outputs">
+    <label for="launchKB">Knockback: </label>
+    <b id="launchKB"></b>
+    <br>
+    <label for="kbAngle">Knockback Angle: </label>
+    <b id="kbAngle"></b>
+    <br>
+    <label for="hitstun">Time In Hitstun: </label>
+    <b id="hitstun"></b>
+    <br>
+    <label for="height">Max Height: </label>
+    <b id="height"></b>
+    <br>
+    <label for="position">Position After Hitstun: </label>
+    <b id="position"></b>
+    <br>
+    <label for="kill">Kills?</label>
+    <b id="kill"></b>
+    <br>
+  </div>
+
+  <script src="kbvis.js"></script>
+
+  </html>

@@ -1,0 +1,27 @@
+div.canvas {
+    position: absolute;
+    left: 320px;
+    overflow: hidden;
+}
+
+form  { display: table; }
+p     { display: table-row; }
+label { display: table-cell; text-align: right; }
+input { display: table-cell; text-align: left; width: 80px; }
+
+div.section{
+  font-size: 18px;
+}
+
+div.outputs {
+  position: absolute;
+  top: 50px;
+  left: 1290px;
+  font-size: 20px;
+}
+
+div.movelist {
+  position: absolute;
+  top: 280px;
+  left: 1290px;
+}
